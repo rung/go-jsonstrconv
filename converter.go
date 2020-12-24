@@ -7,6 +7,7 @@ import (
 )
 
 // ToString converts all types in your json to string type
+// It doesn't support NDJSON now. Please use this for each json.
 func ToString(payload []byte) ([]byte, error) {
 	if !json.Valid(payload) {
 		return nil, errors.New("Failed to parse json")
