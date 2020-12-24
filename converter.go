@@ -31,10 +31,18 @@ func converter(input []byte) ([]byte, error) {
 		case isWhiteSpace(data[pos]):
 			buf.WriteRune(data[pos])
 		case data[pos] == '"':
-			pos += readString(data[pos:])
+			i, err := readString(data[pos:])
+			if err != nil {
+				return nil, err
+			}
+			pos += i
 			buf.WriteString(string(data[orgPos : pos+1]))
 		case isValue(data[pos]):
-			pos += readValue(data[pos:])
+			i, err := readValue(data[pos:])
+			if err != nil {
+				return nil, err
+			}
+			pos += i
 			buf.WriteString("\"" + string(data[orgPos:pos+1]) + "\"")
 		default:
 			buf.WriteRune(data[pos])
@@ -43,7 +51,7 @@ func converter(input []byte) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-func readString(data []rune) int {
+func readString(data []rune) (int, error) {
 	var escaped bool
 	for i, v := range data[1:] {
 		if escaped {
@@ -54,20 +62,20 @@ func readString(data []rune) int {
 		case '\\':
 			escaped = true
 		case '"':
-			return i + 1
+			return i + 1, nil
 		}
 	}
-	return -1
+	return 0, errors.New("string doesn't have '\"'")
 }
 
-func readValue(data []rune) int {
+func readValue(data []rune) (int, error) {
 	for i, v := range data {
 		switch v {
 		case ' ', '\t', '\n', '\r', ',', '}', ']':
-			return i - 1
+			return i - 1, nil
 		}
 	}
-	return -1
+	return 0, errors.New("value doesn't end")
 }
 
 func isWhiteSpace(r rune) bool {
