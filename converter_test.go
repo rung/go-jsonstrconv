@@ -56,6 +56,11 @@ func TestConvert(t *testing.T) {
 "1259457"  
 ,"value2":"12345"}`,
 		},
+		// Error
+		{
+			value: `{id:"a","value1":1259457,"value2":"12345"}`,
+			wantErr: true,
+		},
 	}
 
 	for _, test := range tests {
