@@ -31,7 +31,7 @@ func converter(input []byte) ([]byte, error) {
 			buf.WriteRune(data[pos])
 		case data[pos] == '"':
 			pos += readString(data[pos:])
-			buf.WriteString(string(data[orgPos:pos+1]))
+			buf.WriteString(string(data[orgPos : pos+1]))
 		case isValue(data[pos]):
 			pos += readValue(data[pos:])
 			buf.WriteString("\"" + string(data[orgPos:pos+1]) + "\"")
