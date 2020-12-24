@@ -15,6 +15,11 @@ func TestConvert(t *testing.T) {
 			value: `{"id":"12345","value1":"1259457","value2":"12345"}`,
 			want:  `{"id":"12345","value1":"1259457","value2":"12345"}`,
 		},
+		// Escaped "
+		{
+			value: `{"id":"12\"345","value1":"12\\59457","value2":"\"12345"}`,
+			want:  `{"id":"12\"345","value1":"12\\59457","value2":"\"12345"}`,
+		},
 		// One value is changed
 		{
 			value: `{"id":"12345","value1":1259457,"value2":"12345"}`,
