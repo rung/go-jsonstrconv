@@ -38,11 +38,7 @@ func converter(input []byte) ([]byte, error) {
 			pos += i
 			buf.WriteString(string(data[orgPos : pos+1]))
 		case isValue(data[pos]):
-			i, err := readValue(data[pos:])
-			if err != nil {
-				return nil, err
-			}
-			pos += i
+			pos += readValue(data[pos:])
 			buf.WriteString("\"" + string(data[orgPos:pos+1]) + "\"")
 		default:
 			buf.WriteRune(data[pos])
@@ -68,14 +64,16 @@ func readString(data []rune) (int, error) {
 	return 0, errors.New("string doesn't have '\"'")
 }
 
-func readValue(data []rune) (int, error) {
-	for i, v := range data {
+func readValue(data []rune) int {
+	var i int
+	var v rune
+	for i, v = range data {
 		switch v {
 		case ' ', '\t', '\n', '\r', ',', '}', ']':
-			return i - 1, nil
+			return i - 1
 		}
 	}
-	return 0, errors.New("value doesn't end")
+	return i
 }
 
 func isWhiteSpace(r rune) bool {
