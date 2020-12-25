@@ -17,7 +17,7 @@ This library converts all values of json to string type.
 	import "github.com/rung/go-jsonstrconv"
 ```
 ```go
-	msg := "{\"id\":12345,\"name\":\"John\",\"tel\":12345}"
-	converted, err := jsonstrconv.ToString([]byte(msg))
+	msg := `{"id":12345,"name":"John","tel":12345}`
+    converted, err := jsonstrconv.ToString([]byte(msg))
 ```
 Please see [example](example/convert/main.go)
