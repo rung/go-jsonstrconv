@@ -56,6 +56,21 @@ func TestConvert(t *testing.T) {
 "1259457"  
 ,"value2":"12345"}`,
 		},
+		// Value only
+		{
+			value: `""`,
+			want:  `""`,
+		},
+		// Value only
+		{
+			value: `"test"`,
+			want:  `"test"`,
+		},
+		// Value only
+		{
+			value: `123`,
+			want:  `"123"`,
+		},
 		// Error
 		{
 			value: `{id:"a","value1":1259457,"value2":"12345"}`,
