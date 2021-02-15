@@ -28,8 +28,6 @@ func converter(input []byte) ([]byte, error) {
 		orgPos := pos
 
 		switch {
-		case isWhiteSpace(data[pos]):
-			buf.WriteRune(data[pos])
 		case data[pos] == '"':
 			i, err := readString(data[pos:])
 			if err != nil {
@@ -74,14 +72,6 @@ func readValue(data []rune) int {
 		}
 	}
 	return i
-}
-
-func isWhiteSpace(r rune) bool {
-	switch r {
-	case ' ', '\t', '\n', '\r':
-		return true
-	}
-	return false
 }
 
 func isValue(r rune) bool {
